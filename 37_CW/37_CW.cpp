@@ -3,10 +3,41 @@
 
 #include <iostream>
 #include "MyStack.h"
+#include <string>
 
+bool isValidBrackets(std::string line){
+	myStack::Stack<char> brackets;
+	for (int i = 0; i < line.length(); i++) {
+		if (line[i] == '(' || line[i] == '{' || line[i] == '[') {
+			brackets.push_back(line[i]);
+		}
+		else if (line[i] == ')' || line[i] == '}' || line[i] == ']') {
+			if (brackets.isEmpty()) {
+				return false;
+			}
+			else {
+				char last = brackets.top();
+				if (last == '(' && line[i] == ')' || last == '{' && line[i] == '}' 
+					|| last == '[' && line[i] == ']') {
+					brackets.pop_back();
+				}
+				else {
+					return false;
+				}
+			}
+		}
+	}
+	if (brackets.isEmpty())
+		return true;
+	else {
+		return false;
+	}
+}
 
 int main()
 {
+
+	/*
 
 	myStack::Stack<int> nums;
 	nums.showStack(); // empty
@@ -32,7 +63,13 @@ int main()
 	cout << "===========================\n" << endl;
 
 	nums.showStack();
+	*/
 
+
+	cout << "[()]{}" << isValidBrackets("[()] {}") << endl ;
+
+	cout << "][" << isValidBrackets("][") << endl;
+	cout << "[({)]}" << isValidBrackets("[({)]}") << endl;
 
 	return 0;
 }
